@@ -1,21 +1,42 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../hook/useAuth'
+import { useSelector } from 'react-redux'
+import { Navigate } from 'react-router-dom'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleSubmit = (e) => {
+  const user = useSelector(state => state.auth.user)
+  const loading = useSelector(state => state.auth.loading)
+
+  const {handleLogin} = useAuth()
+
+  const navigate = useNavigate()
+
+  const submitForm = async (e) => {
     e.preventDefault()
-    // Handle login logic here
-    console.log('Login attempt:', { email, password })
+    
+    const payload = {
+      email, password
+    }
+
+    await handleLogin(payload)
+
+    navigate("/")
+    
+  }
+
+  if(!loading && user) {
+    return <Navigate to="/" replace />
   }
 
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center">
       <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md ring-2 ring-[#31b8c6]/30">
         <h2 className="text-2xl font-bold text-[#31b8c6] mb-6 text-center">Login</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={submitForm}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-300 mb-2">Email</label>
             <input
