@@ -14,8 +14,8 @@ export async function sendMessage(req, res) {
     let title = null, chat = null;
     if (!chatId) {
         
-        const title = await generateChatTitle(message)
-        const chat = await chatModel.create({
+        title = await generateChatTitle(message)
+        chat = await chatModel.create({
             user: req.user.id,
             title
         })
@@ -28,7 +28,7 @@ export async function sendMessage(req, res) {
     })
 
     
-    const messages = await messageModel.find({ chat: chatId })
+    const messages = await messageModel.find({ chat: chatId || chat._id })
     const result = await generateResponse(messages)
     
     
