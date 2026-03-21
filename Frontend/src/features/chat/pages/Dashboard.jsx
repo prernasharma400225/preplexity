@@ -28,7 +28,7 @@ const Dashboard = () => {
   }
 
   const openChat = (chatId) => {
-    chat.handleOpenChat(chatId)
+    chat.handleOpenChat(chatId, chats)
   }
     
 
@@ -60,7 +60,7 @@ const Dashboard = () => {
                 key={message.id}
                 className={`max-w-[82%] w-fit rounded-2xl px-4 py-3 text-sm md:text-base ${message.role === 'user'
                     ? 'ml-auto rounded-br-none bg-white/12 text-white'
-                    : 'mr-auto border border-white/25 bg-[#0f1626] text-white/90'
+                    : 'mr-auto border-none text-white/90'
                   }`}
               >
                 {message.role === 'user' ? (
