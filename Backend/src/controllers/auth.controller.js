@@ -98,7 +98,7 @@ export async function login(req, res) {
             username: user.username,
             email: user.email,
 
-        }, process.env.JWT_SECRET, { expiresIn: "7d" })
+        }, process.env.JWT_SECRET, { expiresIn: "10d" })
 
         res.cookie("token", token)
 

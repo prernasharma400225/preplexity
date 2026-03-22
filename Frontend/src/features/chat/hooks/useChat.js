@@ -50,21 +50,23 @@ export const useChat = () => {
     }
 
     async function handleOpenChat(chatId, chats) {
-        if(chats[chatId].messages.length > 0) {
-        const data = await getMessages(chatId)
-        const { messages } = data
+        if (chats[chatId]?.messages.length === 0) {
+            const data = await getMessages(chatId)
+            const { messages } = data
 
-        const formattedMessages = messages.map((msg) => ({
-            content: msg.content
-        }))
-        dispatch(addMessages({
-            chatId,
-            messages: formattedMessages
-        }))
-        dispatch(setCurrentChatId(chatId))
+            const formattedMessages = messages.map((msg) => ({
+                content: msg.content,
+                role: msg.role,
+            }))
+            dispatch(addMessages({
+                chatId,
+                messages: formattedMessages
+            }))
+            dispatch(setCurrentChatId(chatId))
+
+        }
 
     }
-
     return {
         initializeSocketConnection,
         handleSendMessage,
@@ -72,5 +74,4 @@ export const useChat = () => {
         handleOpenChat,
 
     }
-}
 }
